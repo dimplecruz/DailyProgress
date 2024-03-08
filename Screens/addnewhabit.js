@@ -13,7 +13,7 @@ const { width, height } = Dimensions.get("window");
 
 export default function Addnewhabit({ navigation }) {
   const habit = useSelector((state) => state.store.habitlist)
-  const [checked, setChecked] = React.useState('first');
+  const [checked, setChecked] = useState();
   const dispatch = useDispatch();
   const today = new Date();
   const day = today.getDate()+1
@@ -39,17 +39,20 @@ export default function Addnewhabit({ navigation }) {
         name: "",
         description: ""
       })
+      setChecked('')
+    }else{
+      alert('Please select a day or input a habit')
     }
   }
 
   const checked1Submit= () => {
     setChecked('first')
-    setHabitList({...habitList, date: currentDate, id: Math.floor(Math.random() * 900) + 100})
+    setHabitList({...habitList, date: currentDate})
   }
 
   const checked2Submit= () => {
     setChecked('second')
-    setHabitList({...habitList, date: tomorrowDate, id: Math.floor(Math.random() * 900) + 100})
+    setHabitList({...habitList, date: tomorrowDate})
   }
 
 
@@ -80,14 +83,14 @@ export default function Addnewhabit({ navigation }) {
           </View>
 
           <View style={styles.input2Container}>
-            <View style={styles.textInput3}>
+            <View style={styles.textInput}>
               <TextInput
                 style={styles.textInput2}
                 placeholder="Habit Description"
                 multiline={true}  // gi true nako
                 numberOfLines={4}
                 value={habitList.description}
-                onChangeText={(text)=> setHabitList({...habitList, description: text, date: currentDate, id: Math.floor(Math.random() * 900) + 100})}
+                onChangeText={(text)=> setHabitList({...habitList, description: text,id: Math.floor(Math.random() * 900) + 100})}
               />
             </View>
           </View>
@@ -95,7 +98,7 @@ export default function Addnewhabit({ navigation }) {
         <View style={{flexDirection: 'row', marginTop: 20}}>
           <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginRight: 30}}>
             <Text>Today</Text>
-            <View style={{borderWidth: 1, backgroundColor: '#7dcd98', borderRadius: 50, width: 38, borderColor: '#7dcd98', marginLeft: 5}}>
+            <View style={{borderWidth: 1, backgroundColor: '#7dcd98', borderRadius: 50, width: 38, borderColor: '#7dcd98', marginLeft: 5, marginTop: 30, }}>
             <RadioButton
               value="first"
               status={ checked === 'first' ? 'checked' : 'unchecked' }
@@ -106,7 +109,7 @@ export default function Addnewhabit({ navigation }) {
           </View>
       <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
         <Text>Tomorrow</Text>
-        <View style={{borderWidth: 1, backgroundColor: '#7dcd98', borderRadius: 50, width: 38, borderColor: '#7dcd98', marginLeft: 5}}>
+        <View style={{borderWidth: 1, backgroundColor: '#7dcd98', borderRadius: 50, width: 38, borderColor: '#7dcd98', marginLeft: 5, marginTop: 30,}}>
           <RadioButton
             value="second"
             status={ checked === 'second' ? 'checked' : 'unchecked' }
@@ -204,7 +207,7 @@ const styles = StyleSheet.create({
   input2Container: { // box inside
     marginBottom: 10,
     color:'#7dcd98', // DILI MO COLOR
-    marginTop: 8,
+    marginTop: 10,
     width: width*.78
   },
 
@@ -218,12 +221,13 @@ const styles = StyleSheet.create({
   },
   textInput2: {  //habit description
     fontSize: 17,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginStart: 1,
   },
   textInput3: {   // habit description
     borderWidth: 1,
     borderColor: '#7dcd98',
     borderRadius: 8,
-    height: 'auto',
+    height: 50,
   },
 });
